@@ -1,0 +1,33 @@
+.btn{
+    width :208px;
+    margin-top:10px;
+}
+body{
+    font-family: sans-serif;
+    font-size: 17px;
+}
+.view{
+    margin-top: 214px;
+}
+.create {
+    margin-top: 214px;
+    border: 7px solid grey;
+    width: 445px;
+    padding: 32px;
+}
+input {
+    overflow: visible;
+    width: 315px;
+    padding-left: 10px;
+    height: 43px;
+}
+button.btn.btn-lg.btn-primary{
+    width: 201px;
+}
+.viewDetails {
+    border:1px solid red;
+    padding:10px;
+}
+.btn.btn-primary.elem{
+    width:40px;
+}
