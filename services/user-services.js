@@ -1,7 +1,7 @@
 var User=require("../models/database-model.js")
 function checkUsers(req,res){
    var personInfo = req.body; //Get the parsed information
-   console.log("req.body::",req.body);
+   // console.log("req.body::",req.body);
    if(!personInfo.name || !personInfo.age || !personInfo.nationality){
       res.render('show_message', {
       message: "Sorry, you provided worng info", type: "error"});
