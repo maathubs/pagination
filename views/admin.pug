@@ -29,12 +29,11 @@ block content
 								td #{user.nationality} 
 				div.footer
 					center
-						a(type='button',href="'listFirst?limit=10&page='+",class="btn btn-primary elem") <<
-						a(type='button',href="listSecondfirst",class="btn btn-primary elem") <
-						a(type='button',href="viewFulllist",class="btn btn-primary elem disabled") #{text}
-						a(type='button',href="listSecondlast",class="btn btn-primary elem") >
-						a(type='button',href="listLast",class="btn btn-primary elem") >>
-
+						a(class= buttonClassFirst ,href="viewFulllist?limit=10&page=1") <<
+						a(class= buttonClassFirst ,href="viewFulllist?limit=10&page="+(pageCount-1)) <
+						a(class= "btn btn-primary elem disabled") #{pageCount}
+						a(class= buttonClass,href="viewFulllist?limit=10&page="+(pageCount+1)) >
+						a(class= buttonClass,href="viewFulllist?limit=10&page="+(lastPage)) >>
 
 
 

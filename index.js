@@ -26,18 +26,6 @@ app.post("/menu",function(req,res){
 app.get("/viewFulllist",function(req,res){
     services.viewFulllist(req,res);
 })
-app.get("/listFirst",function(req,res){
-    services.listFirst(req,res);
-})
-app.get("/listSecondfirst",function(req,res){
-    services.listSecondfirst(req,res);
-})
-app.get("/listSecondlast",function(req,res){
-    services.listSecondlast(req,res);
-})
-app.get("/listLast",function(req,res){
-    services.listLast(req,res);
-})
 app.listen(3000,() => {
     console.log("server is running")
 })

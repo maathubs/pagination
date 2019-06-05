@@ -32,113 +32,50 @@ function checkUsers(req,res){
       });
    }
 }
+
 function viewFulllist(req,res){
-   User.find({}).sort({"name":1}).limit(10)
+   User.find({})
+   .lean(true)
+   .then((result)=>{
+      var size=result.length;
+      if(size%10===0)
+         var lastPage=size/10;
+      else
+         var lastPage=parseInt(size/10)+1;
+      if(parseInt(req.query.page)===lastPage){
+         var buttonClass="btn btn-primary elem disabled";
+      }
+      else{
+         var buttonClass="btn btn-primary elem";
+      }
+      if(parseInt(req.query.page)===1){
+         var buttonClassFirst="btn btn-primary elem disabled";
+      }
+      else{
+         var buttonClassFirst="btn btn-primary elem";
+      }
+      console.log("req.query::",req.query);
+      var skip=((parseInt(req.query.page)-1)*10);
+      console.log("SIZE::",size);
+      console.log("skip::",skip);
+      console.log("skip::",req.query.page);
+      User.find({}).limit(parseInt(req.query.limit)).skip(parseInt(skip))
    .lean(true)
    .then((result) => {
-      console.log('result from db: ', result);
       if(result.length > 0) {
          console.log("function called in full list :::::",(result.length));
-         res.render('admin',  { users: result,text :1});
+         res.render('admin',  { users: result,pageCount:parseInt(req.query.page),size:size,lastPage:lastPage,buttonClass:buttonClass,buttonClassFirst:buttonClassFirst});
       }
    },(err) => {
       console.log('Error from fetching db : ', err);
       res.render('Error',  {msg: 'Error occured'});
    })
-}
-function listFirst(req,res){
-   User.find({}).limit(10)
-   .lean(true)
-   .then((result)=>{
-      console.log('result from db: ', result);
-      if(result.length > 0) {
-         var text=1;
-         console.log("function called in listFirst:::::",(result.length));
-         res.render('admin',  { users: result,text: text});
-      }
-   },(err) => {
+   },(err)=>{
       console.log('Error from fetching db : ', err);
-      res.render('Error',  {msg: 'Error occured'});
-   })
-}
-function listSecondfirst(req,res){
-   User.find({}).skip(10).limit(10)
-   .lean(true)
-   .then((result)=>{
-      console.log('result from db: ', result);
-      if(result.length > 0) {
-         var text=2;
-         console.log("function called in in listFirst:::::",(result.length));
-         res.render('admin',  { users: result,text: text});
-      }
-   },(err) => {
-      console.log('Error from fetching db : ', err);
-      res.render('Error',  {msg: 'Error occured'});
-   })
-}
-function listSecondlast(req,res){
-   User.find({})
-   .lean(true)
-   .then((result)=>{
-      console.log('result from db in listLast: ', result);
-      if(result.length > 0) {
-         var totalLength=result.length;
-         if(totalLength%10===0)
-         var text=totalLength/10;
-         else
-         var text=parseInt(totalLength/10);
-         var viewSize=totalLength-(parseInt(totalLength/10)*10);
-         var total=totalLength-viewSize;
-         console.log("length::",totalLength);
-         console.log("viewSize::",viewSize);
-         console.log("total::",total); 
-         console.log("function called:::::",(result.length));
-         User.find({}).skip(total)
-         .lean(true)
-         .then((result)=>{
-            if(result.length>0)
-            res.render('admin',  { users: result,text: text});
-         })
-      }
-   },(err) => {
-      console.log('Error from fetching db : ', err);
-      res.render('Error',  {msg: 'Error occured'});
-   })
-}
-function listLast(req,res){
-   User.find({})
-   .lean(true)
-   .then((result)=>{
-      console.log('result from db in listLast: ', result);
-      if(result.length > 0) {
-         var totalLength=result.length;
-         if(totalLength%10===0)
-         var text=totalLength/10;
-         else
-         var text=parseInt(totalLength/10)+1;
-         var viewSize=totalLength-(parseInt(totalLength/10)*10);
-         var total=totalLength-viewSize;
-         console.log("length::",totalLength);
-         console.log("viewSize::",viewSize);
-         console.log("total::",total);
-         console.log("function called:::::",(result.length));
-         User.find({}).skip(total)
-         .lean(true)
-         .then((result)=>{
-            if(result.length>0)
-            res.render('admin',  { users: result,text: text});
-         })
-      }
-   },(err) => {
-      console.log('Error from fetching db : ', err);
-      res.render('Error',  {msg: 'Error occured'});
+      res.render('Error',  {msg: 'Error occured'});  
    })
 }
 module.exports = {
    checkUsers,
-   viewFulllist,
-   listFirst,
-   listLast,
-   listSecondfirst,
-   listSecondlast
+   viewFulllist
 }
